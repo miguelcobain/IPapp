@@ -77,7 +77,7 @@ Regular Application Structure:
       +-display/
       | +-index.html
       | +-style/
-      |   +-style.css
+      | | +-style.css
       | +-script/
       |   +-lib/
       |     +-specific_lib.js
@@ -85,17 +85,17 @@ Regular Application Structure:
       +-mobile/
       | +-index.html
       | +-style/
-      |   +-style.css
-      | +-js/
+      | | +-style.css
+      | +-script/
       |   +-main.js
       +-common/
-      | +-js/
-      |   +-api.js
-      |   +-scheduler.js
-      |   +-presentation_units.js
-      |   +-other_libraries.js
-      | +-css/
-      |   +-global.css
+      | +-script/
+      | | +-api.js
+      | | +-scheduler.js
+      | | +-presentation_units.js
+      | | +-other_libraries.js
+      | +-style/
+      | | +-global.css
       | +-img/
       |   +-logo.png
       |   +-user.png

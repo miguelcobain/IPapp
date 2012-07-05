@@ -2,7 +2,7 @@
     "name": "ipapp",
     "preferGlobal": "true",
     "description": "Instant Places App Generator",
-    "version": "0.0.2-2",
+    "version": "0.0.2-5",
     "author": "Miguel Andrade <jma@dsi.uminho.pt>",
     "bin": {
         "ipapp": "./bin/ipapp"

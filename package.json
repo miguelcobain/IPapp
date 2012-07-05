@@ -1,0 +1,29 @@
+{
+    "name": "ipapp",
+    "preferGlobal": "true",
+    "description": "Instant Places App Generator",
+    "version": "0.0.2-2",
+    "author": "Miguel Andrade <jma@dsi.uminho.pt>",
+    "bin": {
+        "ipapp": "./bin/ipapp"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/miguelcobain/IPapp.git"
+    },
+    "keywords": [
+        "app",
+        "generator",
+        "instant",
+        "places"
+    ],
+    "license": "MIT",
+    "dependencies" : {
+        "commander":  ">= 0.5.x",
+        "mime"     :  ">= 1.2.x",
+        "mustache" :  ">= 0.4.x"
+    },
+    "engines": {
+        "node": "*"
+    }
+}

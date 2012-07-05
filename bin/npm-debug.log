@@ -1,0 +1,56 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'adduser' ]
+2 info using npm@1.1.32
+3 info using node@v0.8.0
+4 verbose config file C:\Users\sd\.npmrc
+5 verbose config file c:\Program Files (x86)\nodejs\etc\npmrc
+6 verbose config file c:\Program Files (x86)\nodejs\node_modules\npm\npmrc
+7 verbose adduser before first PUT { name: 'miguelcobain',
+7 verbose adduser   salt: '9fd32071-6947-4279-a420-378005a27586',
+7 verbose adduser   password_sha: '3e6ada235bb3799e1b52b15fee8a82806d67fc64',
+7 verbose adduser   email: 'jmandrade0@gmail.com',
+7 verbose adduser   _id: 'org.couchdb.user:miguelcobain',
+7 verbose adduser   type: 'user',
+7 verbose adduser   roles: [],
+7 verbose adduser   date: '2012-07-04T15:05:35.669Z' }
+8 verbose url raw /-/user/org.couchdb.user:miguelcobain
+9 verbose url resolving [ 'https://registry.npmjs.org/',
+9 verbose url resolving   './-/user/org.couchdb.user:miguelcobain' ]
+10 verbose url resolved https://registry.npmjs.org/-/user/org.couchdb.user:miguelcobain
+11 http PUT https://registry.npmjs.org/-/user/org.couchdb.user:miguelcobain
+12 http 409 https://registry.npmjs.org/-/user/org.couchdb.user:miguelcobain
+13 verbose adduser update existing user
+14 verbose url raw /-/user/org.couchdb.user:miguelcobain
+15 verbose url resolving [ 'https://registry.npmjs.org/',
+15 verbose url resolving   './-/user/org.couchdb.user:miguelcobain' ]
+16 verbose url resolved https://registry.npmjs.org/-/user/org.couchdb.user:miguelcobain
+17 http GET https://registry.npmjs.org/-/user/org.couchdb.user:miguelcobain
+18 http 404 https://registry.npmjs.org/-/user/org.couchdb.user:miguelcobain
+19 verbose adduser back [ [Error: not_found missing: -/user/org.couchdb.user:miguelcobain],
+19 verbose adduser   { error: 'not_found', reason: 'missing' },
+19 verbose adduser   '{"error":"not_found","reason":"missing"}\n' ]
+20 error Error: not_found missing: -/user/org.couchdb.user:miguelcobain
+20 error     at RegClient.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:177:14)
+20 error     at Request.init.self.callback (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\main.js:119:22)
+20 error     at Request.EventEmitter.emit (events.js:91:17)
+20 error     at Request.<anonymous> (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\main.js:521:16)
+20 error     at Request.EventEmitter.emit (events.js:88:17)
+20 error     at IncomingMessage.Request.start.self.req.self.httpModule.request.buffer (c:\Program Files (x86)\nodejs\node_modules\npm\node_modules\request\main.js:483:14)
+20 error     at IncomingMessage.EventEmitter.emit (events.js:115:20)
+20 error     at IncomingMessage._emitEnd (http.js:366:10)
+20 error     at HTTPParser.parserOnMessageComplete [as onMessageComplete] (http.js:149:23)
+20 error     at CleartextStream.socketOnData [as ondata] (http.js:1356:20)
+20 error  [Error: not_found missing: -/user/org.couchdb.user:miguelcobain]
+21 error You may report this log at:
+21 error     <http://github.com/isaacs/npm/issues>
+21 error or email it to:
+21 error     <npm-@googlegroups.com>
+22 error System Windows_NT 6.1.7601
+23 error command "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "adduser"
+24 error cwd c:\Users\sd\My Documents\Aptana Studio 3 Workspace\IPgen\bin
+25 error node -v v0.8.0
+26 error npm -v 1.1.32
+27 error message not_found missing: -/user/org.couchdb.user:miguelcobain
+28 verbose exit [ 1, true ]

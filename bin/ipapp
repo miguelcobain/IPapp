@@ -1,0 +1,260 @@
+#!/usr/bin/env node
+
+var _cli = require('commander');
+var fs = require('fs');
+var _path = require('path');
+var Template = require("../src/template");
+
+/**
+ * CONFIG VARIABLES
+ */
+
+var TEMPLATE_DIR = __dirname+'/../templates/';
+var MANIFEST_FILE = 'manifest.json';
+
+/**
+ * ACTIONS
+ */
+
+var Gen = {};
+
+/**
+ * Prompt wrapper that supports default values and invokes callbacks with the appropriate value 
+ */
+Gen.prompt = function(string, defaultV, callback){
+	if(defaultV !== undefined && defaultV.length > 0){
+		var arr = string.split(':');
+		arr.splice(arr.length-1,0,' ['+defaultV+']:');
+		string = arr.join('');
+	}
+	
+	_cli.prompt(string, function(value){
+		if(value.length === 0)
+			value = defaultV;
+			
+		callback(value);
+	});
+}
+
+/**
+ * Reads a JSON file 
+ */
+Gen.readJSON = function(file, callback, errorCallback){
+	try{
+		var fileContents = fs.readFileSync(file,'utf8');
+		var schema = JSON.parse(fileContents);
+		if(typeof callback === 'function')
+			callback(schema);
+	}
+	catch(err){
+		console.log(err);
+		if(typeof errorCallback === 'function')
+			errorCallback(err);
+	}
+}
+
+/**
+ * Writes a JSON file 
+ */
+Gen.writeJSON = function(file, obj, callback, errorCallback){
+	try{
+		fs.writeFileSync(file, JSON.stringify(obj, null, 4));
+		if(typeof callback === 'function')
+			callback();
+	}
+	catch(err){
+		console.log(err);
+		if(typeof errorCallback === 'function')
+			errorCallback(err);
+	}
+}
+
+/**
+ * Writes manifest file 
+ */
+Gen.writeManifest = function(obj, callback){
+	Gen.writeJSON(MANIFEST_FILE, obj, callback, function(err){
+		console.error('There was a problem writing in %s file. Is it locked?', MANIFEST_FILE);
+	});
+}
+
+/**
+ * Reads manifest file 
+ */
+Gen.readManifest = function(callback){
+	Gen.readJSON(MANIFEST_FILE, callback, function(err){
+		console.error('No %s file found. Are you in the application\'s directory?', MANIFEST_FILE);
+	});
+}
+
+Gen.app = function(){
+	//console.log('Generating app with name %s.',name);
+	console.log('Please enter some details about your application.');
+	
+	//calculate sensible defaults
+	var nameD =  _path.basename(process.cwd());
+	var versionD = '0.0.0';
+	
+	Gen.prompt('Name: ', nameD, function(name){
+		Gen.prompt('Description:', '', function(description){
+			Gen.prompt('Version: ', versionD ,function(version){
+				Gen.prompt('Author name: ', '',function(author){
+					Gen.prompt('Author e-mail: ', '', function(email){
+						Gen.prompt('Keywords: ', '', function(keywordsString){
+							//Handle keywords
+							var keywords = keywordsString.split(' ');
+							keywords.map(function(word){
+								return word.trim();
+							});
+							keywords = keywords.filter(function(e){return e});
+							
+							//Set up templating variables
+							var values = {
+								name: name,
+								version: version,
+								description: description,
+								author: author,
+								email: email
+							};
+							
+							//Write base app template
+							(new Template(TEMPLATE_DIR+'app','.',values)).write();
+							
+							//Write manifest
+							var manif = {
+								name: name,
+								description: description,
+								version: version,
+								author: email ? author+' <'+email+'>' : author
+							};
+							
+							if(keywords.length>0)
+								manif['keywords'] = keywords;
+
+							Gen.writeManifest(manif);
+							
+							//End stdin prompt
+							process.stdin.destroy();
+						});
+					});
+				});
+			});
+		});
+	});
+	
+}
+
+Gen.contactpoint = function(type){
+	console.log('Generating contactpoint of the %s type.',type);
+	
+	Gen.readManifest(function(manif){
+		//Write contactpoint template
+		(new Template(TEMPLATE_DIR+type,type,manif)).write();
+		
+		//Update manifest
+		var contactPoints = manif.contactPoints || {};
+		contactPoints[type] = {
+			url: type+'/index.html'
+		};
+		manif['contactPoints'] = contactPoints;
+		Gen.writeManifest(manif);
+	});
+	
+	
+}
+
+/**
+ * Starts a lightweight static http server
+ */
+Gen.server = function(port){
+	var http = require("http"),
+		url = require("url"),
+		path = require("path"),
+		fs = require("fs"),
+		mime = require("mime")
+		port = port || 8888;
+
+	http.createServer(function (request, response) {
+
+		var uri = url.parse(request.url).pathname,
+			filename = path.join(process.cwd(), uri);
+
+		fs.exists(filename, function (exists) {
+			if (!exists) {
+				response.writeHead(404, {
+					"Content-Type": "text/plain"
+				});
+				response.write("404 Not Found\n");
+				response.end();
+				return;
+			}
+
+			if (fs.statSync(filename).isDirectory()) filename += '/index.html';
+
+			fs.readFile(filename, "binary", function (err, file) {
+				if (err) {
+					response.writeHead(500, {
+						"Content-Type": "text/plain"
+					});
+					response.write(err + "\n");
+					response.end();
+					return;
+				}
+
+				response.writeHead(200, {
+					"Content-Type": mime.lookup(filename)
+				});
+				response.write(file, "binary");
+				response.end();
+			});
+		});
+	}).listen(parseInt(port, 10));
+
+	console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+}
+
+/*
+ * COMMAND LINE PARSING
+ */
+
+_cli
+	.command('init')
+	.description('Generates a new base application')
+	.action(Gen.app);
+	
+_cli	
+	.command('contactpoint <type>')
+	.description('Generates a new contactpoint of the given type in the provided application')
+	.action(Gen.contactpoint);
+	
+_cli	
+	.command('server [port]')
+	.description('Quickly starts a static http server to test your application')
+	.action(Gen.server);
+  
+_cli.parse(process.argv);
+
+
+
+/*
+ * MISC
+ */
+if (!_cli.args.length) {
+	// show help by default
+	_cli.parse([process.argv[0], process.argv[1], '-h']);
+	process.exit(0);
+} else {
+	/*
+	//TODO warn aboud invalid commands
+	var validCommands = _cli.commands.map(function(cmd){
+	    return cmd.name;
+	});
+	var invalidCommands = _cli.args.filter(function(cmd){
+	    //if command executed it will be an object and not a string
+	    return (typeof cmd === 'string' && validCommands.indexOf(cmd) === -1);
+	});
+	if (invalidCommands.length) {
+	    console.log('\n [ERROR] - Invalid command: "%s". See "--help" for a list of available commands.\n', invalidCommands.join(', '));
+	}
+	*/
+}

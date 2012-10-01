@@ -1,0 +1,17 @@
+{
+    "name": "Hello World App",
+    "description": "A simple, intuitive and scaffolded app to help you get started with web display application development.",
+    "version": "0.0.0",
+    "author": "Your Name <youremail@provider.com>",
+    "keywords": [
+        "hello",
+        "world",
+        "instant",
+        "places"
+    ],
+    "contactPoints":{
+    	"display": {
+    		"url": "display/index.html"
+    	}
+    }
+}

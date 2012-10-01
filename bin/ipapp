@@ -144,6 +144,10 @@ Gen.app = function(){
 	
 }
 
+Gen.hello = function(){
+	(new Template(TEMPLATE_DIR+'hello','.')).write();
+}
+
 Gen.contactpoint = function(type){
 	console.log('Generating contactpoint of the %s type.',type);
 	
@@ -221,6 +225,11 @@ _cli
 	.command('init')
 	.description('Generates a new base application')
 	.action(Gen.app);
+	
+_cli
+	.command('init:hello')
+	.description('Generates a new base application with the Hello World App Template')
+	.action(Gen.hello);	
 	
 _cli	
 	.command('contactpoint <type>')

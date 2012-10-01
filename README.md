@@ -1,12 +1,12 @@
 # Using IPapp #
 
-IPapp is an Instant Places application generator. It will create the basic application structure, contact points and will keep your manifest file updated in the process.
+IPapp is an [Instant Places](http://www.instantplaces.org/) application generator. It will create the basic application structure, contact points and will keep your manifest file updated in the process.
 
 It is a recommended workflow as it will guide you and help you getting started with Instant Places Applications.
 
 ## Installation ##
 
-IPapp is written in NodeJS. Just grab a suitable copy for your platform from the [official site](http://nodejs.org/#download) and install it. The installer should include [npm](http://npmjs.org/), so you can run:
+IPapp is written in NodeJS, and as such it is cross-platform. Just grab a suitable copy for your platform from the [official site](http://nodejs.org/#download) and install it. The installer should include [npm](http://npmjs.org/), so you can run:
 
     npm install -g ipapp
 
@@ -24,7 +24,7 @@ The generator will then ask you about some details of your application:
 - **name**
 - **description**
 - **version** of the application as specified by [Semantic Versioning](http://semver.org/).
-It's important to keep track of your package versions [in a smart way](http://blog.nodejitsu.com/package-dependencies-done-right).
+  It's important to keep track of your package versions [in a smart way](http://blog.nodejitsu.com/package-dependencies-done-right).
 - **your name**
 - **your e-mail**
 - and some **keywords** that properly identify your application.
@@ -33,7 +33,7 @@ It's important to keep track of your package versions [in a smart way](http://bl
 
 This information is required to generate the first version of your `manifest.json` file. This file should be in the root folder and contain the details you previously entered.
 
-Additionally, a basic structure of your application should exist in your directory.
+Additionally, a basic structure of your application should exist in your directory. Besides the `manifest.json`file, a common folder was also created. This is were you should put the files shared among contact points or configuration views.
 
 ## Generating Contact Points ##
 
@@ -49,7 +49,11 @@ To generate a contact point just run the following command in your project's roo
 
 The `type` argument can be `display`, `mobile` or `web`.
 Notice that the manifest file is updated with the corresponding contact point that was generated.
-This command will check for the manifest file, so it is mandatory to run it in a previously initialized project.
+This command will check for the manifest file, so *it is mandatory to run it in a previously initialized project*.
+
+## Configuration Views ##
+
+Instant Places applications require 
 
 ## Serving Your Application ##
 
@@ -63,19 +67,25 @@ This will start the http server in port 8888, by default. Optionally you can set
 
 ## Future Work ##
 
-Application Build:
+- Application Build:
+ - Minify CSS and javascripts
+ - Compile Coffescript and Less
+ - Maybe using [Collate](https://github.com/jmlewis/collate)
 
-- Minify CSS and javascripts
-- Compile Coffescript, Sass and Less
+- Better support for configuration views generation.
 
-Configuration steps generator.
+- Support for publishing an application.
 
+- Web frontend.
 
-Regular Application Structure:
+- IDE frontend.
+
+## Regular Application Structure: ##
 
     +-AppName/
       +-display/
       | +-index.html
+      | +-activation.html
       | +-style/
       | | +-style.css
       | +-script/
@@ -84,6 +94,7 @@ Regular Application Structure:
       |   +-main.js
       +-mobile/
       | +-index.html
+      | +-activation.html
       | +-style/
       | | +-style.css
       | +-script/
@@ -101,5 +112,4 @@ Regular Application Structure:
       |   +-user.png
       +-subscription/
       |   +-index.html
-      +-activation/
-          +-index.html
+      +-manifest.json

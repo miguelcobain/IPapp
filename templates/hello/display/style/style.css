@@ -1,0 +1,159 @@
+/* Place here your specific styles for the display contact point */
+
+html, body{
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #2e2e2e;
+	margin:0;
+	width:100%;
+	height:100%;
+}
+
+h1{
+	font-weight: bold;
+	letter-spacing: -2px;
+	margin:0 0;
+}
+
+h2{
+	font-weight: normal;
+	font-style: italic;
+	letter-spacing: -2px;
+	margin:0 0;
+}
+
+
+#container{
+	height:80%;
+	width:100%;
+}
+
+.bar{
+	height:10%;
+	width: 100%;
+	background-color: #f7f7f7;
+	/* 
+	 * Change box sizing to include border in width/height.
+	 * See: http://css-tricks.com/box-sizing/
+	 */
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+.bar.top{
+	border-bottom:1px solid #ebebeb;
+}
+
+.bar.bottom{
+	border-top:1px solid #ebebeb;
+}
+
+.splash{
+	text-align: center;
+	margin:0 auto;
+	text-shadow: 0 1px 3px rgba(0, 0, 0, .4), 0 0 30px rgba(0, 0, 0, .075);
+	
+	height:100%;
+	width:100%;
+	
+}
+
+.circle {
+	-webkit-border-radius: 50%;
+	-moz-border-radius: 50%;
+	border-radius: 50%;
+	width: 35px;
+	height: 35px;
+	/* width and height can be anything, as long as they're equal */
+	background-color:#2E2E2E;
+	margin:20px auto;
+}
+
+.splash h1{
+	font-size:120px;
+}
+
+.content h1{
+	font-size:120px;
+}
+
+.splash p{
+	font-size:40px;
+	margin:0;
+	line-height: 1.25;
+}
+
+/* 
+ * Vertically center a div without fixed dimensions.
+ * See: http://blog.themeforest.net/tutorials/vertical-centering-with-css/
+ * Utility classes
+ */
+.table{
+	display: table;
+	width: 100%;
+	height: 100%;
+}
+
+.cell{
+	display: table-cell;
+	vertical-align: middle;
+	height:100%;
+	width:100%;
+}
+
+.centerContent{
+	width: 75%;
+	margin: 0 auto;
+}
+
+.content{
+	height:100%;
+	width:90%;
+	margin:0 auto;
+	/* This panel is initially hidden */
+	display:none;
+	
+	text-align:center;
+}
+
+.panel{
+	float:left;
+	padding:5px 10px;
+	width:20%;
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+	height:90%;
+	margin: 2.5% 10px; /* (100% - 90%) / 2 = 5% left for top and bottom. 5% / 2 = 2.5% */
+	border:1px solid #ebebeb;
+	-webkit-box-sizing: border-box; /* Safari/Chrome, other WebKit */
+	-moz-box-sizing: border-box;    /* Firefox, other Gecko */
+	box-sizing: border-box;         /* Opera/IE 8+ */
+}
+
+#title{
+	/* initially hidden */
+	display:none;
+}
+
+
+/* Responsive
+-------------------------------------------------- */
+
+@media (max-width: 1194px) {
+	/*
+	 * Things are getting narrow.
+	 * Let's give some more space for our splash screen text.
+	 */
+	.content{
+		width:95%;
+	}
+	/* Decrease font sizes a little. */
+	.splash h1{
+		font-size:100px;
+	}
+	.splash p{
+		font-size:30px;
+	}
+}
+
+

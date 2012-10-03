@@ -6,11 +6,15 @@ It is a recommended workflow as it will guide you and help you getting started w
 
 ## Installation ##
 
-IPapp is written in NodeJS, and as such it is cross-platform. Just grab a suitable copy for your platform from the [official site](http://nodejs.org/#download) and install it. The installer should include [npm](http://npmjs.org/), so you can run:
+IPapp is written in NodeJS, and as such it is cross-platform. Just grab a suitable copy for your platform from the [official site](http://nodejs.org/#download) and install it. The installer should include the [npm](http://npmjs.org/) package manager. For convenience, IPapp is at the [npm registry](https://npmjs.org/package/ipapp), so you can run:
 
     npm install -g ipapp
 
-And we're done. IPapp is installed. You should now have an `ipapp` executable available in your system.
+And we're done. IPapp is installed globally. You should now have an `ipapp` executable available in your system.
+
+When a new version is released you can update it by running:
+
+	npm update -g ipapp
 
 ## Application Initialization ##
 

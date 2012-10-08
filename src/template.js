@@ -1,6 +1,7 @@
 var fs = require('fs');
 var _path = require('path');
 var mustache = require('mustache');
+var ansi = require('./ansi');
 
 /**
  * Template class
@@ -10,7 +11,6 @@ var mustache = require('mustache');
  * @param values the data to pass to templating engine
  */
 var Template = function(template, path, values) {
-
 
 	// PRIVATE METHODS
 	
@@ -32,6 +32,7 @@ var Template = function(template, path, values) {
 		var checkDir = fs.statSync(sourceDir);
 		try {
 			fs.mkdirSync(newDirLocation, checkDir.mode);
+			console.log(ansi("\tcreate\t", 'green'), newDirLocation);
 		} catch (e) {
 			//if the directory already exists, that's okay
 			if (e.code !== 'EEXIST')
@@ -56,7 +57,10 @@ var Template = function(template, path, values) {
 				//Pass contents through mustache
 				contents = mustache.to_html(contents, values);
 				
-				fs.writeFileSync(newDirLocation + "/" + files[i], contents);
+				if(files[i].charAt(0)!=='.'){
+				  fs.writeFileSync(newDirLocation + "/" + files[i], contents);
+				  console.log(ansi("\tcreate\t", 'green'), newDirLocation + "/" + files[i]);
+				}
 			}
 		}
 	};

@@ -11,6 +11,7 @@ var Template = require("../src/template");
 
 var TEMPLATE_DIR = __dirname+'/../templates/';
 var MANIFEST_FILE = 'manifest.json';
+var SERVER_PORT = 8088;
 
 /**
  * ACTIONS
@@ -117,8 +118,17 @@ Gen.app = function(){
 								email: email
 							};
 							
+							console.log('Generating base app...');
+							
 							//Write base app template
 							(new Template(TEMPLATE_DIR+'app','.',values)).write();
+							
+							console.log('Generating display contact point...');
+							
+							//Write display contact point template
+							(new Template(TEMPLATE_DIR+'display','./display',values)).write();
+							
+							console.log('Writing manifest...');
 							
 							//Write manifest
 							var manif = {
@@ -133,6 +143,8 @@ Gen.app = function(){
 
 							Gen.writeManifest(manif);
 							
+							console.log('Done!');
+							
 							//End stdin prompt
 							process.stdin.destroy();
 						});
@@ -145,23 +157,27 @@ Gen.app = function(){
 }
 
 Gen.hello = function(){
+   console.log('Generating Hello World app...');
 	(new Template(TEMPLATE_DIR+'hello','.')).write();
+	console.log('Done!');
 }
 
 Gen.contactpoint = function(type){
-	console.log('Generating contactpoint of the %s type.',type);
-	
 	Gen.readManifest(function(manif){
+	   console.log('Generating %s contact point...', type);
 		//Write contactpoint template
 		(new Template(TEMPLATE_DIR+type,type,manif)).write();
 		
 		//Update manifest
 		var contactPoints = manif.contactPoints || {};
 		contactPoints[type] = {
-			url: type+'/index.html'
+			url: type+'/index.html',
+			activation: type+'/activation.html'
 		};
 		manif['contactPoints'] = contactPoints;
+		console.log('Writing manifest...');
 		Gen.writeManifest(manif);
+		console.log('Done!');
 	});
 	
 	
@@ -176,7 +192,7 @@ Gen.server = function(port){
 		path = require("path"),
 		fs = require("fs"),
 		mime = require("mime")
-		port = port || 8888;
+		port = port || SERVER_PORT;
 
 	http.createServer(function (request, response) {
 

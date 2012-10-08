@@ -36,45 +36,45 @@ $(function() {
    // This is the array which will hold the currently present people.
    var people = [];
 
-// Let's create our splash screen controller
-var splash = new IP.UI.SplashScreen({
-   // The minimum amount of time that the splash screen should run
-   minTime : 1500,
-   // onStart will run when we later call splash.start()
-   onStart : function() {
-      // Fade in the splash screen div
-      $('.splash').hide().fadeIn('slow', function() {
-         // Pulse animation for the little dot
-         $('.splash .circle').css({
-            opacity : 1
-         }).pulse({
-            opacity : 0.1
-         }, {
-            duration : 2250,
-            pulses : -1
+   // Let's create our splash screen controller
+   var splash = new IP.UI.SplashScreen({
+      // The minimum amount of time that the splash screen should run
+      minTime : 1500,
+      // onStart will run when we later call splash.start()
+      onStart : function() {
+         // Fade in the splash screen div
+         $('.splash').hide().fadeIn('slow', function() {
+            // Pulse animation for the little dot
+            $('.splash .circle').css({
+               opacity : 1
+            }).pulse({
+               opacity : 0.1
+            }, {
+               duration : 2250,
+               pulses : -1
+            });
          });
-      });
-   },
-   // onEnd will run whenever the splash screen ends
-   onEnd : function() {
-      // Let's fade out the splash screen div...
-      $('.splash').fadeOut('slow', function() {
-         // ...stop the pulsing effect...
-         $('.splash .circle').stop().css({
-            opacity : 1
+      },
+      // onEnd will run whenever the splash screen ends
+      onEnd : function() {
+         // Let's fade out the splash screen div...
+         $('.splash').fadeOut('slow', function() {
+            // ...stop the pulsing effect...
+            $('.splash .circle').stop().css({
+               opacity : 1
+            });
+            // and fade in the content div.
+            $('.content').fadeIn('slow', function() {
+               if (people.length == 0)
+                  $('#title').fadeIn('slow');
+               else
+                  greet(people, 0);
+            });
          });
-         // and fade in the content div.
-         $('.content').fadeIn('slow', function() {
-            if (people.length == 0)
-               $('#title').fadeIn('slow');
-            else
-               greet(people, 0);
-         });
-      });
-   }
-});
-// Run splash screen
-splash.start();
+      }
+   });
+   // Run splash screen
+   splash.start();
 
    var placeId = 1;
 

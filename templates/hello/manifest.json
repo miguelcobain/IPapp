@@ -9,6 +9,7 @@
         "instant",
         "places"
     ],
+    "subscriptionUrl": "subscription/index.html",
     "contactPoints":{
     	"display": {
     		"url": "display/index.html"

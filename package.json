@@ -2,7 +2,7 @@
     "name": "ipapp",
     "preferGlobal": "true",
     "description": "IPapp is an Instant Places application generator. It will create the basic application structure, contact points and will keep your manifest file updated in the process.",
-    "version": "0.0.3-1",
+    "version": "0.0.3-3",
     "author": "Miguel Andrade <jma@dsi.uminho.pt>",
     "bin": {
         "ipapp": "./bin/ipapp"

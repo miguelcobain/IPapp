@@ -122,20 +122,14 @@ Gen.app = function(){
 							
 							//Write base app template
 							(new Template(TEMPLATE_DIR+'app','.',values)).write();
-							
-							console.log('Generating display contact point...');
-							
-							//Write display contact point template
-							(new Template(TEMPLATE_DIR+'display','./display',values)).write();
-							
-							console.log('Writing manifest...');
-							
+														
 							//Write manifest
 							var manif = {
 								name: name,
 								description: description,
 								version: version,
-								author: email ? author+' <'+email+'>' : author
+								author: email ? author+' <'+email+'>' : author,
+								subscriptionUrl: 'subscription/index.html'
 							};
 							
 							if(keywords.length>0)
@@ -143,7 +137,8 @@ Gen.app = function(){
 
 							Gen.writeManifest(manif);
 							
-							console.log('Done!');
+							// Generate display contact point
+							Gen.contactpoint('display');
 							
 							//End stdin prompt
 							process.stdin.destroy();
@@ -172,7 +167,7 @@ Gen.contactpoint = function(type){
 		var contactPoints = manif.contactPoints || {};
 		contactPoints[type] = {
 			url: type+'/index.html',
-			activation: type+'/activation.html'
+			activationUrl: type+'/activation.html'
 		};
 		manif['contactPoints'] = contactPoints;
 		console.log('Writing manifest...');

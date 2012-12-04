@@ -1,3 +1,12 @@
+/* Get URl parameters */
+ var urlParams = location.search && location.search.substr(1).replace(/\+/gi, " ").split("&");
+
+ for (var i=0; i<urlParams.length; i++)
+ {
+     var s = urlParams[i].split("=");
+     urlParams[i] = urlParams[unescape(s[0])] = unescape(s[1]);
+ }
+
 // The interval between each greeting
 var GREET_INTERVAL = 2000;
 function greet(people, index) {
@@ -76,8 +85,8 @@ $(function() {
    // Run splash screen
    splash.start();
 
-   var placeId = 1;
-
+    var placeId = urlParams['placeId'];
+    
    // Provide a custom global error callback
    IP.API.onerror = function() {
       // dot turns red
@@ -88,27 +97,36 @@ $(function() {
       splash.ready();
    };
 
-   // While the splash screen is running, let's fetch some data with IP.API!
-   IP.API.Places.get(placeId, function(place) {
-      // The place was retrieved!
-      // Let's get the place's OPENED sessions now.
-      place.getSituatedIdentities({
-         since : 'now'
-      }, function(situatedIdts) {
-         if (situatedIdts.length == 0) {
-            // No one is here
-            $('#title').text('There isn\'t anyone here. :(');
-         } else {
-            // Let's iterate the present situated identities
-            situatedIdts.forEach(function(sIdt, index) {
-               // Add the name to a local array for later retrieval
-               people.push({
-                  name : sIdt.attrs.name
+   // Let's see if we have a placeId
+   if(placeId == undefined){
+   	// No placeId parameter provided. This is an unknown place!
+      $('#title').html('Hello, <u>unknown</u> place! :)');
+      // We can now tell the splash screen that we're ready.
+      splash.ready();
+   }
+   else{
+      // While the splash screen is running, let's fetch some data with IP.API!
+      IP.API.Places.get(placeId, function(place) {
+         // The place was retrieved!
+         // Let's get the place's OPENED sessions now.
+         place.getSituatedIdentities({
+            since : 'now'
+         }, function(situatedIdts) {
+            if (situatedIdts.length == 0) {
+               // No one is here
+               $('#title').text('There isn\'t anyone here. :(');
+            } else {
+               // Let's iterate the present situated identities
+               situatedIdts.forEach(function(sIdt, index) {
+                  // Add the name to a local array for later retrieval
+                  people.push({
+                     name : sIdt.attrs.name
+                  });
                });
-            });
-         }
-         // We can now tell the splash screen that we're ready.
-         splash.ready();
+            }
+            // We can now tell the splash screen that we're ready.
+            splash.ready();
+         });
       });
-   });
+   }
 });
